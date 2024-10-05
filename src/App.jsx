@@ -7,6 +7,8 @@ import Home from './_root/pages/Home'
 import AuthLayout from "./_auth/AuthLayout";
 import RootLayout from './_root/RootLayout'
 import { Allusers, CreatePost, EditPost, Explore, PostDetails, Profile, Saved, UpdateProfile } from "./_root/pages";
+import Message from "./_root/pages/Message";
+
 
 
 function App() {
@@ -30,6 +32,7 @@ function App() {
         <Route path="/posts/:id" element={<PostDetails/>}/>
         <Route path="/profile/:id" element={<Profile/>}/>
         <Route path="/update-profile/:id" element={<UpdateProfile/>}/>
+        <Route path="/message/:id" element={<Message/>}/>
         </Route>
       </Routes>
     </main>

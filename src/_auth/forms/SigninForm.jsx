@@ -1,11 +1,16 @@
 import React, { useState } from 'react'
 import { useAuth } from '../../utils/AuthContext'
 import { Link, useNavigate } from 'react-router-dom'
+import { useSignInAccount } from '../../lib/react-query/queries'
 
 const SigninForm = () => {
 
   const navigate = useNavigate()
-  const {createUserAccount,checkAuthUser,signInAccount,isLoading:isUserLoading} = useAuth()
+const {checkAuthUser} = useAuth()
+const {mutateAsync: signIn,isLoading:isUserLoading} = useSignInAccount()
+
+// Query
+
   
   const [credentials,setCredentials] = useState({
     name:"",
@@ -21,14 +26,13 @@ const SigninForm = () => {
 
     try{
     
-      const session = await signInAccount({
+      const session = await signIn({
         email:credentials.email,
         password:credentials.password1,
       })
 
       if(!session){
         alert("Something went wrong please login your new account")
-        navigate('/sign-in')
         return
       }
 

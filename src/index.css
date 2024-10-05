@@ -2,8 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer utilities{
-
+@layer utilities {
   .body-bold {
     @apply text-[18px] font-bold leading-[140%];
   }
@@ -12,48 +11,59 @@
     @apply text-[16px] font-medium leading-[140%];
   }
 
+  .base-regular {
+    @apply text-[16px] font-normal leading-[140%];
+  }
 
-    .custom-scrollbar::-webkit-scrollbar {
-        width: 3px;
-        height: 3px;
-        border-radius: 2px;
-      }
-    
-      .custom-scrollbar::-webkit-scrollbar-track {
-        background: #09090a;
-      }
-    
-      .custom-scrollbar::-webkit-scrollbar-thumb {
-        background: #5c5c7b;
-        border-radius: 50px;
-      }
-    
-      .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-        background: #7878a3;
-      }
+  .body-bold {
+    @apply text-[18px] font-bold leading-[140%];
+  }
 
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 3px;
+    height: 3px;
+    border-radius: 2px;
+  }
 
-      .h2-bold {
-        @apply text-[30px] font-bold leading-[140%] tracking-tighter;
-      }
-    
-      .h3-bold {
-        @apply text-[24px] font-bold leading-[140%] tracking-tighter;
-      }
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: #09090a;
+  }
 
-      .small-regular {
-        @apply text-[14px] font-normal leading-[140%];
-      }
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: #5c5c7b;
+    border-radius: 50px;
+  }
 
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: #7878a3;
+  }
 
-      .subtle-semibold {
-        @apply text-[12px] font-semibold leading-[140%];
-      }
+  .h2-bold {
+    @apply text-[30px] font-bold leading-[140%] tracking-tighter;
+  }
 
-      .small-medium {
-        @apply text-[14px] font-medium leading-[140%];
-      }
+  .h3-bold {
+    @apply text-[24px] font-bold leading-[140%] tracking-tighter;
+  }
+  .body-bold {
+    @apply text-[18px] font-bold leading-[140%];
+  }
+
+  .small-regular {
+    @apply text-[14px] font-normal leading-[140%];
+  }
+
+  .subtle-semibold {
+    @apply text-[12px] font-semibold leading-[140%];
+  }
+
+  .small-medium {
+    @apply text-[14px] font-medium leading-[140%];
+  }
+  .base-medium {
+    @apply text-[16px] font-medium leading-[140%];
+  }
+  .flex-2{
+    flex: 2;
+  }
 }
-
-
-

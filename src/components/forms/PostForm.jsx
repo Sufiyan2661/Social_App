@@ -1,67 +1,107 @@
 import React, { useState } from "react";
 import FileUploader from "../shared/FileUploader";
 import { useNavigate } from "react-router-dom";
-import {useAuth} from '../../utils/AuthContext'
+import { useAuth } from "../../utils/AuthContext";
+import { useCreatePost, useUpdatePost } from "../../lib/react-query/queries";
+import { getFilePreview, uploadFile } from "../../lib/appwrite/api";
 
-const PostForm = ({ post }) => {
+
+const PostForm = ({ post, action }) => {
+  const navigate = useNavigate();
+  const { user } = useAuth();
+  
+  // console.log("Post Prop:",post?.imageUrl)
+  // console.log("action if postform:",action)
+
+  // Query
+  const {mutateAsync: createPost,isLoading:isLoadingCreate} = useCreatePost()
+  const {mutateAsync: updatePost,isLoading:isLoadingUpdate} = useUpdatePost()
 
 
-  const navigate = useNavigate()
-  const {user,isLoading,setIsLoading,createPost,} = useAuth()
 
-  const [formValues,setFormValues] = useState({
+  const [formValues, setFormValues] = useState({
     caption: post ? post.caption : "",
-    file:[],
-   location: post ? post.location: "",
-   tags: post ? post.tags.join(","):"",
-  })
-
-
-
+    file: [],
+    location: post ? post.location : "",
+    tags: post ? post.tags.join(",") : "",
+  });
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
-
-    console.log("FormValue:",formValues)
-
+    e.preventDefault();
+    
+    
     try {
+
+      let fileUrl = post?.imageUrl
+      if(formValues.file.length > 0){
+        const uploadedFile  = await uploadFile(formValues.file[0])
+        fileUrl =  (await getFilePreview(uploadedFile.$id)).href
+        console.log("file url in postform",fileUrl)
+      }
+
+
+      // ACTION = UPDATE
+      if(post && action === 'Update'){
+        const updatedPost = await updatePost({
+          ...formValues,
+          postId:post.$id,
+          imageId:post?.imageId,
+          imageUrl: fileUrl
+        })
+        if(!updatedPost){
+          alert("Failed to update post.Please try again.")
+        }else{
+           navigate(`/posts/${post.$id}`)
+        }
+        return
+        
+      }
+
+      // console.log(formValues)
+      // ACTION CREATE
       const newPost = await createPost({
         ...formValues,
-        userId:user.id,
-      })
+        userId: user.id,
+      });
 
-      console.log("New post in post from:",newPost)
-  
-      if(!newPost){
-        alert("Please try again.")
+      // console.log("New post in post from:", newPost);
+
+      if (!newPost) {
+        alert("Please try again.");
+      }else{
+        navigate("/");
       }
-      navigate("/")
     } catch (error) {
-      console.log("post submission failed:",error)
-      alert("please try again.")
+    console.log(error)
     }
-    
+
+
   };
 
   const fileChange = (files) => {
-    console.log("file has been changed:",files);
-    setFormValues((prevValues)=>({
+    console.log("file has been changed:", files);
+    setFormValues((prevValues) => ({
       ...prevValues,
       file: files,
-    }))
+    }));
   };
 
-
-  const handleInputChange = (e) =>{
-    const {name,value} = e.target
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
     setFormValues({
       ...formValues,
-      [name]:value
-    })
-  }
+      [name]: value,
+    });
+  };
+
+  
+  
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-9 w-full max-w-5xl">
+    <form
+      onSubmit={handleSubmit}
+      className="flex flex-col gap-9 w-full max-w-5xl"
+    >
       <div>
         <label className=" text-white">Caption</label>
         <textarea
@@ -75,7 +115,7 @@ const PostForm = ({ post }) => {
 
       <div>
         <label className="text-white">Add Photos</label>
-        <FileUploader fieldChange={fileChange} mediaUrl={post?.mediaUrl} />
+        <FileUploader fieldChange={fileChange} mediaUrl={post?.imageUrl} />
         <p className="text-red"></p>
       </div>
 
@@ -116,9 +156,10 @@ const PostForm = ({ post }) => {
         </button>
         <button
           type="submit"
-          className="h-12 px-5 items-center rounded-lg  bg-primary-500 hover:bg-primary-500 text-light-1 flex gap-2 whitespace-nowrap"
+          className={`h-12 px-5 items-center rounded-lg ${isLoadingCreate || isLoadingUpdate ? 'bg-gray-400 cursor-not-allowed':'bg-primary-500 hover:bg-primary-500'}  text-light-1 flex gap-2 whitespace-nowrap`}
+          disabled={isLoadingCreate || isLoadingUpdate}
         >
-          Submit
+          {isLoadingCreate || isLoadingUpdate ? 'submitting...':'Submit'}
         </button>
       </div>
     </form>

@@ -1,68 +1,76 @@
-import React, { useState } from 'react'
-import { Link, useNavigate  } from 'react-router-dom'
-import { useAuth } from '../../utils/AuthContext'
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../../utils/AuthContext";
+import {
+  useCreateUserAccount,
+  useSignInAccount,
+} from "../../lib/react-query/queries";
+
+
 
 const SignupForm = () => {
+  const navigate = useNavigate();
+  const { checkAuthUser, isLoading: isUserLoading } = useAuth();
+  // Queries
+  const {mutateAsync: signInAccount, isLoading: isSigningInUser} =useSignInAccount()
+  const {mutateAsync: createUserAccoutn , isLoading: isCreatingAccount} = useCreateUserAccount()
+ ;
 
-  const navigate = useNavigate()
-  const {createUserAccount,checkAuthUser,signInAccount,isLoading:isUserLoading} = useAuth()
-  
-  const [credentials,setCredentials] = useState({
-    name:"",
-    email:"",
-    password1:"",
-    password2:""
-  })
+  const [credentials, setCredentials] = useState({
+    name: "",
+    email: "",
+    password1: "",
+    password2: "",
+  });
 
-  
-  const handleSingup = async(e)=>{
-    e.preventDefault()
 
-    try{
-      const newUser = await createUserAccount(credentials)
 
-      if(!newUser) {
-        alert("Sign up failed.Please try again.")
-        return
+  //
+  const handleSingup = async (e) => {
+    e.preventDefault();
+
+    try {
+    
+      const newUser = await createUserAccoutn(credentials);
+
+      if (!newUser) {
+        alert("Sign up failed.Please try again.");
+        return;
       }
-       
+
       const session = await signInAccount({
-        email:credentials.email,
-        password:credentials.password1,
-      })
+        email: credentials.email,
+        password: credentials.password1,
+      });
 
-      if(!session){
-        alert("Something went wrong please login your new account")
-        navigate('/sign-in')
-        return
+      if (!session) {
+        alert("Something went wrong please login your new account");
+        navigate("/sign-in");
+   
+        return;
       }
 
-      const isLoggedIn = await checkAuthUser()
+      const isLoggedIn = await checkAuthUser();
 
-      if(isLoggedIn){
-        navigate('/')
-      }else{
-        alert("Login failed please try again")
-
-        return
+      if (isLoggedIn) {
+        navigate("/");
+      } else {
+        alert("Login failed please try again");
+        
+        return;
       }
-
-    }catch(error){
-      console.log(error)
+    } catch (error) {
+      console.log(error);
+  
     }
-  }
+  };
 
+  const handleOnChange = (e) => {
+    let name = e.target.name;
+    let value = e.target.value;
 
-
-
-  const handleOnChange = (e) =>{
-    let name = e.target.name
-    let value = e.target.value
-
-    setCredentials({...credentials,[name]:value})
-  }
-
-
+    setCredentials({ ...credentials, [name]: value });
+  };
 
   return (
     <div className=" text-white w-full h-screen flex items-center justify-center ">
@@ -70,12 +78,13 @@ const SignupForm = () => {
         <h1 className="md:font-bold text-white text-center py-4 cursor-default">
           Create your Account
         </h1>
-        <form onSubmit={handleSingup} className="flex flex-col items-center space-y-6">
+        <form
+          onSubmit={handleSingup}
+          className="flex flex-col items-center space-y-6"
+        >
           {/* input for Name */}
           <div className="flex flex-col">
-            <label  className="pb-2">
-              Name
-            </label>
+            <label className="pb-2">Name</label>
             <input
               type="text"
               name="name"
@@ -127,16 +136,23 @@ const SignupForm = () => {
             />
           </div>
           <div>
-            <input
+            <button
               type="submit"
-              value="SignUp"
               className="border bg-primary-500 hover:bg-primary-500 text-light-1 gap-2  rounded-md w-16 "
-            />
+            >
+              {isCreatingAccount || isSigningInUser || isUserLoading ? (
+                <div className="flex items-center justify-center gap-2">
+                  <span>Loading...</span>
+                </div>
+              ) : (
+                "Sign Up"
+              )}
+            </button>
           </div>
         </form>
         <div className="text-center py-4">
           <p className="cursor-default">
-          Already have an acoount? Signin{" "}
+            Already have an acoount? Signin{" "}
             <Link to="/sign-in" className="text-blue-600 hover:underline">
               here
             </Link>
@@ -144,7 +160,7 @@ const SignupForm = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default SignupForm
+export default SignupForm;

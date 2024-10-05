@@ -1,15 +1,29 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
 
 const FileUploader = ({ fieldChange, mediaUrl }) => {
-  const [fileUrl, setFileUrl] = useState(mediaUrl);
+  // console.log("feildChange function:",fieldChange)
+
+
+  
+  // console.log("Received mediaUrl in FileUploader:",mediaUrl)
+ 
+  
+  const [fileUrl, setFileUrl] = useState(mediaUrl || '');
   const [file, setFile] = useState([]);
+  // console.log(fileUrl)
+
+  useEffect(()=>{
+    if(mediaUrl){
+      setFileUrl(mediaUrl)
+    }
+  },[mediaUrl])
 
   const onDrop = useCallback(
     (acceptedFiles) => {
       setFile(acceptedFiles);
-      fieldChange(acceptedFiles);
       setFileUrl(URL.createObjectURL(acceptedFiles[0]));
+      fieldChange(acceptedFiles);
     },
     [file]
   );
@@ -21,6 +35,13 @@ const FileUploader = ({ fieldChange, mediaUrl }) => {
     },
   });
 
+  // useEffect(()=>{
+  //   setFileUrl(mediaUrl || '')
+  // },[mediaUrl])
+
+ 
+
+  // console.log("Media Url in FileUploader:",mediaUrl)
   // console.log("File path:",'/assets/Icon/file-upload.svg')
 
   return (
