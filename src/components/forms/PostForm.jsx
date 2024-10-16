@@ -100,7 +100,7 @@ const PostForm = ({ post, action }) => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="flex flex-col gap-9 w-full max-w-5xl"
+      className="flex flex-col gap-9 w-full max-w-5xl pl-6"
     >
       <div>
         <label className=" text-white">Caption</label>

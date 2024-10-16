@@ -48,7 +48,7 @@ if(isErrorPosts || isErrorCreators){
         </div>
       </div>
 
-      <div className="hidden xl:flex flex-col w-72 2xl:w-465 px-6 py-10 gap-10  overflow-scroll custom-scrollbar">
+      {/* <div className="hidden xl:flex flex-col w-72 2xl:w-465 px-6 py-10 gap-10  overflow-scroll custom-scrollbar">
         <h3 className='h3-bold text-light-1'>Top Creators</h3>
         {isUserLoading && !creators ? (
           <Loader/>
@@ -61,7 +61,7 @@ if(isErrorPosts || isErrorCreators){
           ))}
         </ul>
         )}
-      </div>
+      </div> */}
     </div>
   )
 }

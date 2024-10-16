@@ -44,7 +44,7 @@ const Explore = () => {
 
   return (
     <div className="flex flex-col flex-1 items-center overflow-scroll py-10 px-5 md:p-14 custom-scrollbar">
-      <div className="max-w-5xl flex flex-col items-center w-full gap-6 md:gap-9">
+      <div className="max-w-5xl flex flex-col items-center w-full pl-6 gap-6 md:gap-9">
         <h2 className="h3-bold md:h2-bold">Search Post</h2>
         <div className="flex  gap-1 px-4 w-full rounded-lg bg-dark-4">
           <img
@@ -64,7 +64,7 @@ const Explore = () => {
         </div>
       </div>
 
-      <div className="flex justify-between items-center w-full max-w-5xl mt-6 mb-7">
+      <div className="flex justify-between items-center w-full max-w-5xl mt-6 mb-7 pl-6">
         <h3 className="body-bold md:h3-bold">Popular Today</h3>
 
         <div className="flex items-center justify-center gap-3 bg-dark-3 rounded-xl px-4 py-2 cursor-pointer">
@@ -78,7 +78,7 @@ const Explore = () => {
         </div>
       </div>
 
-      <div className="flex flex-wrap gap-9 w-full max-w-5xl">
+      <div className="flex flex-wrap gap-9 w-full max-w-5xl pl-6">
         {shouldShowSearchResult ? (
           <SearchResults
           issearchFetching={issearchFetching}
@@ -91,11 +91,6 @@ const Explore = () => {
          ))
         )}
       </div>
-      {/* {hasNextPage && !searchValue && (
-        <div ref={ref} className="mt-10">
-          <Loader />
-        </div>
-      )} */}
     </div>
   );
 };

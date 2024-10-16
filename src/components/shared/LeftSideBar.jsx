@@ -25,28 +25,14 @@ const LeftSideBar = () => {
     navigate("/sign-in");
   };
 
-  // console.log(user)
+
 
   return (
     <nav className="hidden md:flex px-6 py-10 flex-col justify-between min-w-[270px] bg-dark-2 fixed top-0 left-0 h-full z-10  ">
       <div className="flex flex-col gap-11">
         <Link to="/" className="flex gap-3 items-center">
-          <img src="/assets/logo.svg" alt="logo" width={170} height={36} />
+          {/* <img src="/assets/logo.svg" alt="logo" width={170} height={36} /> */}
         </Link>
-
-        {/* <Link to={`/profile/${user.$id}`} className="flex gap-3 items-center">
-          <img src={user.imageUrl} alt="" className="h-14 w-14 rounded-full" />
-          <div
-            className="flex flex-col
-            "
-          >
-            <p className="text-[18px] font-bold leading-[140%]">{user.name}</p>
-            <p className="text-[14px] font-normal leading-[140%] text-light-3">
-              ${user.name}
-            </p>
-          </div>
-        </Link> */}
-
         {isLoading || !user.email ?(
           <div className="h-14">
             <Loader/>

@@ -4,6 +4,7 @@ import {
   useCreateMassage,
   useDeleteMassage,
   useGetMassages,
+  useGetUsers,
 } from "../../lib/react-query/queries";
 import { Loader, Trash2 } from "react-feather";
 import { formatMassageTime } from "../../utils/utils";
@@ -12,6 +13,7 @@ import { useParams } from "react-router-dom";
 
 const Message = () => {
   const { user } = useAuth();
+  const {data:creators} = useGetUsers()
 
   const { id: chatUserId } = useParams();
   const { data: massages, isLoading, refetch } = useGetMassages();
@@ -32,13 +34,11 @@ const Message = () => {
     const unsubscribe = client.subscribe(
       `databases.${appwriteConfig.databaseId}.collections.${appwriteConfig.messagesCollection}.documents`,
       (response) => {
-        console.log("Real-time event:", response);
         if (
           response.events.includes(
             "databases.*.collections.*.documents.*.create"
           )
         ) {
-          console.log("A massage was created:", response.payload);
           refetch(); // Refetch messages to update the UI
         }
         if (
@@ -46,7 +46,6 @@ const Message = () => {
             "databases.*.collections.*.documents.*.delete"
           )
         ) {
-          console.log("A massage was deleted:", response.payload);
           refetch(); // Refetch messages to update the UI
         }
       }
@@ -76,10 +75,26 @@ const Message = () => {
     );
   }
 
-  console.log("messsage permission in Message:", massages);
+// Attempt to find the receiver
+
+
+const receiver = creators?.documents.find((creator) => creator.$id === chatUserId) || null;
+
+// Log the receiver's name if it exists
+console.log('Receiver Name:', receiver?.name);
+
+
+
+
+
+  
 
   return (
     <main className=" w-full ml-[270px] flex flex-1 flex-col h-screen bg-gray-950 bg-fixed bg-cover text-white">
+      {/* Header */}
+      <div className="flex w-full bg-gray-800 h-14 text-white  items-center ">
+        <h2>{receiver ? receiver.name: "chat"}</h2>
+      </div>
       <div className="flex-1 flex flex-col overflow-hidden">
         <div className="flex-1 overflow-y-auto p-4 space-y-4">
           {/* Filter messages by userId to show only messages between the current user and selected chat user */}
@@ -104,74 +119,29 @@ const Message = () => {
                   <div
                     className={`p-3 max-w-xs rounded-lg ${
                       massage.user_id === user.id
-                        ? "bg-blue-500 text-white self-end" // Sender's message styling
-                        : "bg-gray-300 text-black self-start" // Receiver's message styling
+                        ? "bg-blue-500 text-white self-end"
+                        : "bg-gray-300 text-black self-start"
                     }`}
                   >
-                    <p className="text-sm font-semibold">
-                      {/* {massage.username ? (
-                        <span>{massage.username}</span>
-                      ) : (
-                        <span className="text-red-500">Anonymous user</span>
-                      )} */}
-                      {/* <small className="ml-2">
-                        {formatDate(massage.$createdAt)}
-                      </small> */}
-                    </p>
+                    <p className="text-sm font-semibold"></p>
                     <p className="mt-1">
                       {massage.body ? massage.body : "Body not found"}
                     </p>
                     <p className="text-sm font-semibold">
-                    <small className="ml-2">
+                      <small className="ml-2">
                         {formatMassageTime(massage.$createdAt)}
                       </small>
-                      </p>
+                    </p>
                     {massage.user_id === user.id &&
-                      massage.$permissions.includes('delete("users")') && ( // Updated condition
+                      massage.$permissions.includes('delete("users")') && (
                         <Trash2
                           onClick={() => handleDelete(massage.$id)}
                           className="hover:text-red-700 text-xs mt-1"
                           size={16}
                         />
                       )}
-
-                    {/* {massage.$permissions.includes('delete("users")') && (
-                      <Trash2
-                        onClick={() => handleDelete(massage.$id)}
-                        className="hover:text-red-700 text-xs mt-1"
-                        size={16}
-                      />
-                    )} */}
                   </div>
                 </div>
-
-                // <div key={massage.$id} className="flex">
-                //   <div className="">
-                //     <p className="text-sm font-semibold">
-                //       {massage.username ? (
-                //         <span>{massage.username}</span>
-                //       ) : (
-                //         <span className="text-red-500">Anonymous user</span>
-                //       )}
-                //       <small>{formatDate(massage.$createdAt)}</small>
-                //     </p>
-                //     {massage.$permissions.includes('delete("users")') && (
-                //       <Trash2
-                //         onClick={() => handleDelete(massage.$id)}
-                //         className="hover:text-red-700 text-xs"
-                //         size={16}
-                //       />
-                //     )}
-
-                //   </div>
-                //   <div>
-                //     {massage.body ? (
-                //       <span>{massage.body}</span>
-                //     ) : (
-                //       <span>Body not found</span>
-                //     )}
-                //   </div>
-                // </div>
               );
             })}
 
@@ -184,14 +154,14 @@ const Message = () => {
           onSubmit={handleCreate}
           className="p-4 border-t bg-white flex items-center sticky bottom-0 w-full"
         >
-          <div>
+          <div className="flex-1 mr-2">
             <textarea
               required
               maxLength="1000"
               placeholder="Say something..."
               value={massageBody}
               onChange={(e) => setMassageBody(e.target.value)}
-              className="flex-1 p-2 border rounded-lg mr-2 focus:outline-none focus:ring-2 focus:ring-blue-500 text-black"
+              className="flex-1 p-2 border rounded-lg mr-2 focus:outline-none focus:ring-2 focus:ring-blue-500 text-black w-full"
             ></textarea>
           </div>
           <div>
