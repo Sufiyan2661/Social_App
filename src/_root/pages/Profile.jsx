@@ -81,15 +81,6 @@ const Profile = () => {
                 </p>
               </Link>
             </div>
-
-            {/* <div className={`${user.id === id && "hidden"}`}>
-              <button
-                type="button"
-                className="bg-primary-500 hover:bg-primary-500 text-light-1 flex gap-2 px-8"
-              >
-                Follow
-              </button>
-            </div> */}
           </div>
         </div>
       </div>
