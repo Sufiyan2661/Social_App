@@ -7,8 +7,6 @@ import { formatDate } from "../../utils/utils";
 const PostCard = ({ post }) => {
   const {  user } = useAuth();
 
-  // console.log(post);
-
   if (!post.creator) return;
 
   return (

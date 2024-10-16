@@ -47,21 +47,6 @@ if(isErrorPosts || isErrorCreators){
           )}
         </div>
       </div>
-
-      {/* <div className="hidden xl:flex flex-col w-72 2xl:w-465 px-6 py-10 gap-10  overflow-scroll custom-scrollbar">
-        <h3 className='h3-bold text-light-1'>Top Creators</h3>
-        {isUserLoading && !creators ? (
-          <Loader/>
-        ):(
-        <ul className='grid 2xl:grid-cols-2 gap-6'>
-          {creators?.documents.map((creator)=>(
-            <li key={creator?.$id}>
-              <UserCard users={creator}/>
-            </li>
-          ))}
-        </ul>
-        )}
-      </div> */}
     </div>
   )
 }

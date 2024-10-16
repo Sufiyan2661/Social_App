@@ -31,7 +31,7 @@ const LeftSideBar = () => {
     <nav className="hidden md:flex px-6 py-10 flex-col justify-between min-w-[270px] bg-dark-2 fixed top-0 left-0 h-full z-10  ">
       <div className="flex flex-col gap-11">
         <Link to="/" className="flex gap-3 items-center">
-          {/* <img src="/assets/logo.svg" alt="logo" width={170} height={36} /> */}
+          <img src="/assets/logo.svg" alt="logo" width={170} height={36} />
         </Link>
         {isLoading || !user.email ?(
           <div className="h-14">

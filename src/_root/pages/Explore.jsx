@@ -1,23 +1,12 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, {  useEffect, useState } from "react";
 import SearchResults from "../../components/shared/SearchResults";
 import GridPostList from "../../components/shared/GridPostList";
-import { useAuth } from "../../utils/AuthContext";
 import { Loader } from "react-feather";
 import { useInView } from "react-intersection-observer";
 import useDebounce from "../../Hooks/useDebounce";
 import { useGetPosts, useSearchPosts } from "../../lib/react-query/queries";
 
-const searchResults = ({issearchFetching,searchedPosts}) =>{
-  if(issearchFetching){
-    return <Loader/>
-  }else if(searchedPosts && searchedPosts.documents.length > 0){
-    return <GridPostList posts={searchedPosts.documents}/>
-  }else{
-    return (
-      <p className="text-light-4 mt-10 text-center w-full">No resluts Found</p>
-    )
-  }
-}
+
 
 const Explore = () => {
   const {ref,inView} = useInView()
@@ -91,6 +80,11 @@ const Explore = () => {
          ))
         )}
       </div>
+      {hasNextPage && !searchValue && (
+        <div ref={ref} className="mt-10">
+          <Loader/>
+        </div>
+      )}
     </div>
   );
 };

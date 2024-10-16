@@ -8,8 +8,8 @@ const Allusers = () => {
   const { user } = useAuth();
   const { data: creators, isLoading, isError: isErrorCreators } = useGetUsers();
 
-  console.log("Logged in user:", user) // Log the logged-in user object
-  console.log("All users (creators):", creators?.documents) // Log all creators/users
+  console.log("Logged in user:", user) 
+  console.log("All users (creators):", creators?.documents)
 
   
   if (isErrorCreators) {
@@ -26,7 +26,7 @@ const Allusers = () => {
           <ul className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-7 max-w-5xl">
             {creators?.documents
               .filter(creator => {
-                return creator.$id !== user.id // Compare creator.$id with user.id
+                return creator.$id !== user.id 
               })
               .map((creator) => (
                 <li key={creator?.$id} className='flex-1 min-w-[240px]'>
@@ -36,54 +36,6 @@ const Allusers = () => {
             }
           </ul>
         )}
-
-
-
-
-        {/* {isLoading && !creators ? (
-          <Loader />
-        ) : (
-          <ul className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-7 max-w-5xl">
-            {creators?.documents
-              .filter(creator => {
-                console.log("Creator ID:", creator?.$id, "Logged-in User ID:", user?.$id)
-                return creator.$id !== user.$id // Filter out the logged-in user
-              })
-              .map((creator) => (
-                <li key={creator?.$id} className='flex-1 min-w-[240px]'>
-                  <UserCard users={creator} />
-                </li>
-              ))
-            }
-          </ul>
-        )} */}
-
-
-
-
-        {/* {isLoading && !creators ? (
-          <Loader />
-        ) : (
-          <ul className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-7 max-w-5xl">
-            {creators?.documents
-              .filter((creator) => creator.$id !== user.$id) // Filter out logged-in user
-              .map((creator) => (
-                <li key={creator?.$id} className="flex-1 min-w-[240px]">
-                  <UserCard users={creator} />
-                </li>
-              ))}
-          </ul>
-        )} */}
-
-        {/* {isLoading && !creators ?(
-          <Loader/>
-        ):(
-          <ul className="w-full grid grid-cols-1  md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-7 max-w-5xl  ">
-            {creators?.documents.map((creator)=>(
-              <li key={creator?.$id} className='flex-1 min-w-[240px]'><UserCard users={creator}/></li>
-            ))}
-          </ul>
-        )} */}
       </div>
     </div>
   );

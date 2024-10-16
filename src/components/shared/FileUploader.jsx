@@ -2,16 +2,12 @@ import React, { useCallback, useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
 
 const FileUploader = ({ fieldChange, mediaUrl }) => {
-  // console.log("feildChange function:",fieldChange)
-
-
-  
-  // console.log("Received mediaUrl in FileUploader:",mediaUrl)
+ 
  
   
   const [fileUrl, setFileUrl] = useState(mediaUrl || '');
   const [file, setFile] = useState([]);
-  // console.log(fileUrl)
+ 
 
   useEffect(()=>{
     if(mediaUrl){
@@ -35,14 +31,6 @@ const FileUploader = ({ fieldChange, mediaUrl }) => {
     },
   });
 
-  // useEffect(()=>{
-  //   setFileUrl(mediaUrl || '')
-  // },[mediaUrl])
-
- 
-
-  // console.log("Media Url in FileUploader:",mediaUrl)
-  // console.log("File path:",'/assets/Icon/file-upload.svg')
 
   return (
     <div {...getRootProps()} className="flex justify-center items-center flex-col bg-dark-3 rounded-xl cursor-pointer ">

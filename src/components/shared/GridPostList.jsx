@@ -7,7 +7,6 @@ const GridPostList = (
   ({ posts, showUser = true, showStats = true }) => {
     const { user } = useAuth();
 
-    // console.log("posts image:",posts)
 
     return (
       <ul className=" w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-7 max-w-5xl">
@@ -17,7 +16,7 @@ const GridPostList = (
               to={`/posts/${post.$id}`}
               className="flex rounded-[24px] border border-dark-4 overflow-hidden cursor-pointer w-full h-full"
             >
-              {/* {console.log("showing the post reslut:",post)} */}
+          
               <img
                 src={post.imageUrl}
                 alt="post"

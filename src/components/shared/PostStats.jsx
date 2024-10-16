@@ -50,8 +50,7 @@ const PostStats = ({ post, userId }) => {
     let likesArray = [...likes];
 
 
-// console.log("postId:",post.$id)
-// console.log("userId:",userId)
+
 console.log("likesArray:",likesArray)
 
     if (likesArray.includes(userId)) {
@@ -60,9 +59,7 @@ console.log("likesArray:",likesArray)
       likesArray.push(userId);
     }
 
-    // console.log("updated likeArray:",likesArray)
-    // const updateLikes = likes.includes(userId)? likes.filter((id)=>id !== userId):
-    // [...likes,userId]
+   
 
     setLikes(likesArray);
 
@@ -72,10 +69,6 @@ console.log("likesArray:",likesArray)
   const handleSavePost = async (e) => {
     e.stopPropagation();
 
-    // console.log("userId:", userId, "postId:", post.$id);
-      // Find te saved post record
-      
-      // console.log("save post record in handleSavePost:",savedPostRecord)
 
 
       console.log("userId:",userId)
